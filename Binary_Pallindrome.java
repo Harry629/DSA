@@ -12,7 +12,6 @@ class HelloWorld {
         String arr1 = str.toString();
         String arr = str.reverse().toString();
         System.out.println(arr);
-        // System.out.println(isPalindrome(arr));
         if(arr1.equals(arr)){
             System.out.println("True");
         }else{
