@@ -5,10 +5,20 @@ class HelloWorld {
         int[] arr = {1,2,3,4,7,54,8};
         System.out.print(linearSearch(arr,54,0));
     }
-    public static boolean linearSearch(int[] arr,int target,int i){
+    // public static boolean linearSearch(int[] arr,int target,int i){
+    //     if(i==arr.length){
+    //         return false;
+    //     }
+    //     return (arr[i]==target || linearSearch(arr,target,i=i+1));
+    // }
+    public static int linearSearch(int[] arr,int target,int i){
         if(i==arr.length){
-            return false;
+            return -1;
         }
-        return (arr[i]==target || linearSearch(arr,target,i=i+1));
+        if(arr[i]==target){
+            return i;
+        }else{
+            return (linearSearch(arr,target,i=i+1));
+        }
     }
 }
