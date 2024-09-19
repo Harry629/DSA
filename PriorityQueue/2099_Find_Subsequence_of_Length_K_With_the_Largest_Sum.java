@@ -1,3 +1,7 @@
+// You are given an integer array nums and an integer k. You want to find a subsequence of nums of length k that has the
+// largest sum.
+// Return any such subsequence as an integer array of length k.
+// Ans:-
 class Solution {
     public int[] maxSubsequence(int[] nums, int k) {
         PriorityQueue<int[]> pq= new PriorityQueue<int[]> ((a,b)->a[0]-b[0]);
