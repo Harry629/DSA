@@ -52,3 +52,26 @@ class Solution {
         return Math.max(res1,res2);
     }
 }
+-------------- Using constant space -----------------------
+
+class Solution {
+    public int rob(int[] nums) {
+        if(nums.length ==1) return nums[0];
+        if(nums.length==2) return Math.max(nums[0], nums[1]);
+        int take_first = solve(nums,0, nums.length-2);
+        int take_sec = solve(nums,1, nums.length-1);
+        return Math.max(take_first, take_sec);
+    }
+    int solve(int[] nums,int m , int n){
+        int prev1 = 0;
+        int prev2 = 0;
+        for(int i =m;i<=n;i++){
+            int steal = nums[i] + prev2;
+            int skip = prev1;
+            int curr = Math.max(steal, skip);
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        return prev1;
+    }
+}
