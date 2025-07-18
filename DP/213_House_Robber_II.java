@@ -2,37 +2,53 @@
 // of the last one. Meanwhile, adjacent houses have a security system connected, and it will automatically contact the police if two adjacent houses were broken into on the same night.
 // Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
 
+----------------- Using Recursion and memoization -----------------------------------
+    
 class Solution {
     public int rob(int[] nums) {
-        return dp(nums);
-    }
-    public int dp(int[] nums){
-        
-        if(nums.length==1){
+        if(nums.length == 1){
             return nums[0];
         }
-        if(nums.length==2){
-            return Math.max(nums[0],nums[1]);
-        }
-        if(nums.length==3){
-            return Math.max(nums[0],Math.max(nums[1],nums[2]));
-        }
-        else{    
-            int[] dp1 = new int[nums.length-1];
-            int[] dp2 = new int[nums.length-1];
+        int[] dp1 = new int[nums.length+1];
+        Arrays.fill(dp1,-1);
+        int[] dp2 = new int[nums.length+1];
+        Arrays.fill(dp2,-1);
+        int first= rec(nums,0,nums.length-1,dp1);
+        int sec = rec(nums,1,nums.length,dp2);
+        return Math.max(first, sec);
+    }
+    int rec(int[] nums,int i, int j,int[] dp){
+        if(i>=j) return 0;
+        if(dp[i]!=-1) return dp[i];
+        int steal = nums[i]+ rec(nums,i+2,j,dp);
+        int skip = rec(nums,i+1,j,dp);
+        return dp[i]=Math.max(steal,skip);
+    }
+}
 
-            dp1[0]= nums[0];
-            dp2[0] =nums[1];
-            dp1[1]= Math.max(nums[0],nums[1]);
-            dp2[1]=Math.max(nums[1],nums[2]);
-            for(int i=2;i<nums.length-1;i++){
-                dp1[i]= Math.max(dp1[i-1], nums[i]+dp1[i-2]);
-            }
-            for(int i=2;i<nums.length-1;i++){
-                dp2[i]= Math.max(dp2[i-1], nums[i+1]+dp2[i-2]);
-            }
-            return Math.max(dp1[dp1.length-1],dp2[dp2.length-1]);
+----------------- Using bottom-up approach ----------------------
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if(n==1){
+            return nums[0];
         }
-        
+        int[] t = new int[n+1];
+        t[0]= 0;
+        for(int i=1;i<=n-1;i++){
+            int steal = nums[i-1]+ ((i-2 >= 0) ? t[i-2] : 0);
+            int skip = t[i-1];
+            t[i]= Math.max(steal,skip);
+        }
+        int res1 = t[n-1];
+        Arrays.fill(t,0);
+        t[1]=0;
+        for(int i=2;i<=n;i++){
+            int steal = nums[i-1]+ ((i-2 >= 0) ? t[i-2] : 0);
+            int skip = t[i-1];
+            t[i]= Math.max(steal,skip);
+        }
+        int res2 = t[n];
+        return Math.max(res1,res2);
     }
 }
