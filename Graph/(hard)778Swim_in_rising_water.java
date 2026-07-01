@@ -11,6 +11,7 @@
 // Return the minimum time until you can reach the bottom right square (n - 1, n - 1) if you start at
 // the top left square (0, 0).
 
+import java.util.*;
 class Solution {
     int[] x = {-1,1,0,0};
     int[] y = {0,0,1,-1};
